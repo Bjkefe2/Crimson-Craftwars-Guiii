@@ -1,0 +1,89 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local KillAll = Instance.new("TextButton")
+local AntiKickBypass = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
+local TextLabel_2 = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Frame.Position = UDim2.new(0.0433639959, 0, 0.0861423239, 0)
+Frame.Size = UDim2.new(0, 148, 0, 100)
+Frame.Visible = true
+Frame.Active = true
+Frame.Draggable = true
+
+KillAll.Name = "Kill All"
+KillAll.Parent = Frame
+KillAll.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+KillAll.BorderColor3 = Color3.fromRGB(27, 42, 53)
+KillAll.Position = UDim2.new(0, 0, 0.48641035, 0)
+KillAll.Size = UDim2.new(0, 148, 0, 25)
+KillAll.Font = Enum.Font.SourceSans
+KillAll.Text = "Kill All"
+KillAll.TextColor3 = Color3.fromRGB(255, 255, 255)
+KillAll.TextSize = 14.000
+KillAll.MouseButton1Down:Connect(function()
+	for i,v in pairs(game:GetDescendants()) do
+		if v.Name == game.Players.LocalPlayer.Name and v:FindFirstChild("Humanoid") then
+			v:FindFirstChild("Humanoid").Name = "A"
+		else
+			if v.Name == "Humanoid" then
+				game:GetService("Workspace")[game.Players.LocalPlayer.Name][game.Workspace[game.Players.LocalPlayer.Name]:FindFirstChildOfClass("Tool").Name].RemoteFunction:InvokeServer("hit",{v,9999999999999999999999999999999999})
+			end
+		end
+	end
+end)
+
+AntiKickBypass.Name = "Anti Kick Bypass"
+AntiKickBypass.Parent = Frame
+AntiKickBypass.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+AntiKickBypass.BorderColor3 = Color3.fromRGB(27, 42, 53)
+AntiKickBypass.Position = UDim2.new(0, 0, 0.24913758, 0)
+AntiKickBypass.Size = UDim2.new(0, 148, 0, 23)
+AntiKickBypass.Font = Enum.Font.SourceSans
+AntiKickBypass.Text = "Anti kick Bypass"
+AntiKickBypass.TextColor3 = Color3.fromRGB(255, 255, 255)
+AntiKickBypass.TextSize = 14.000
+AntiKickBypass.MouseButton1Down:Connect(function()
+	local mt = getrawmetatable(game)
+	local readonly = setreadonly or make_writeable
+	readonly(mt,false)
+	oldindex = mt.__namecall
+	----------------------------------
+	mt.__namecall = newcclosure(function(self,...)
+		local args = {...}
+		local method = getnamecallmethod()
+		----------------------------------
+		if method == "Kick" or method == "kick" or method == "health" or method == "Health" or method == "Position" or method == "CFrame" or method == "Teleport" then
+			return wait(1e+18)
+		end
+		return oldindex(self,...)
+	end)
+end)
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.Size = UDim2.new(0, 148, 0, 25)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "Crimson Crafwars"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 14.000
+
+TextLabel_2.Parent = Frame
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.Position = UDim2.new(0, 0, 0.74272728, 0)
+TextLabel_2.Size = UDim2.new(0, 148, 0, 25)
+TextLabel_2.Font = Enum.Font.SourceSans
+TextLabel_2.Text = "Made By:Efeeee#8151"
+TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.TextSize = 14.000
